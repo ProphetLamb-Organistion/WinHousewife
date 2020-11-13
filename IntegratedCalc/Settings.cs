@@ -11,21 +11,25 @@ namespace IntegratedCalc
         public Dictionary<string, Size> Sizes { get; set; } 
         public List<WebCommandData> WebCommands { get; set; } 
         public List<LaunchCommandData> LaunchCommands { get; set; }
-        public Size StartupSize = new Size(500, 300);
-        public Size WebbrowserSize = new Size(700, 800);
-        public bool IsTopmost = true;
-        public WindowHelper.SnapOrigins StartupLocation = WindowHelper.SnapOrigins.Bottom | WindowHelper.SnapOrigins.Left;
-        public Color ErrorColor { get; set; } = Colors.Red;
-        public Color InputColor { get; set; } = Colors.LightBlue;
-        public Color NotifyColor { get; set; } = Colors.Orange;
-        public Color ActionColor { get; set; } = Colors.Green;
-        public Color BackgroundColor { get; set; } = Colors.Black;
-        public Color ForegroundColor { get; set; } = Colors.White;
-        public Color LightBackgroundColor { get; set; } = Colors.DarkSlateGray;
-        public Color DisabledForegroundColor { get; set; } = Colors.LightGray;
+        public Size StartupSize { get; set; }
+        public Size WebbrowserSize { get; set; }
+        public bool IsTopmost { get; set; }
+        public WindowHelper.SnapOrigins StartupLocation { get; set; }
+        public Color ErrorColor { get; set; }
+        public Color InputColor { get; set; }
+        public Color NotifyColor { get; set; }
+        public Color ActionColor { get; set; }
+        public Color BackgroundColor { get; set; }
+        public Color ForegroundColor { get; set; }
+        public Color LightBackgroundColor { get; set; }
+        public Color DisabledForegroundColor { get; set; }
 
         public static SettingsObject Default => new SettingsObject
         {
+            StartupSize = new Size(500, 300),
+            WebbrowserSize = new Size(700, 800),
+            IsTopmost = true,
+            StartupLocation = WindowHelper.SnapOrigins.Bottom | WindowHelper.SnapOrigins.Left,
             Sizes = new Dictionary<string, Size>
             {
                 { "small", new Size(400,300) },
@@ -70,7 +74,15 @@ namespace IntegratedCalc
                     "code",
                     "Launches Visual Studio Code.",
                     @"C:\Program Files\Microsoft VS Code\Code.exe")
-            }
+            },
+            ErrorColor = Colors.Red,
+            InputColor = Colors.LightBlue,
+            NotifyColor = Colors.Orange,
+            ActionColor = Colors.Green,
+            BackgroundColor = Colors.Black,
+            ForegroundColor = Colors.White,
+            LightBackgroundColor = Colors.DarkSlateGray,
+            DisabledForegroundColor = Colors.LightGray
         };
     }
 }
