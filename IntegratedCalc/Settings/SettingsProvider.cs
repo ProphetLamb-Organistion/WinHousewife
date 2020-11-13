@@ -30,7 +30,7 @@ namespace IntegratedCalc.Settings
         }
 
         public string FileName => m_fileName;
-        public T Current => m_current;
+        public T Current { get => m_current; set => m_current = value; }
         object ISettingsProvider.Current => m_current;
         public JsonSerializer Serializer => m_serializer;
 
@@ -48,7 +48,7 @@ namespace IntegratedCalc.Settings
                 m_current = new T();
             }
         }
-        public void Get()
+        public bool Get()
         {
             if (File.Exists(m_fileName))
             {
@@ -56,10 +56,12 @@ namespace IntegratedCalc.Settings
                 using var sr = new StreamReader(fs);
                 using var jr = new JsonTextReader(sr);
                 m_current = m_serializer.Deserialize<T>(jr) ?? new T();
+                return true;
             }
             else
             {
                 m_current = new T();
+                return false;
             }
         }
 
