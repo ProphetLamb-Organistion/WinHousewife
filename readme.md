@@ -4,16 +4,16 @@ IntegratedCalculator is a calculator app that aims to be more accessible then th
 To solve expressions this applications uses the [mXpaser libary](https://github.com/mariuszgromada/MathParser.org-mXparser) Copyright 2010 - 2020 Mariusz Gromada licenced under Simplified BSD Licence.
 
 # Motivation
-I was fedup with windows search evaluating expressions using a browser request, and descided that there should be a integrated solution, that can evaluate expressions. 
+I was fedup with windows search evaluating expressions using a browser request, and decided that there should be an equally integrated solution that runs offline. 
 So I picked up a nice expression parser and implemented a simple CLI.
 That done I registered an easy to access hotkey that was unused [Win]+[C] (cause ain't nobody using Cortana). Later I added a few more accessibility features and allowed the user to configure them using a settings.json.
 
 # Features
 
 ## Hotkeys
-* [Win]+[C] - Opens this window
-* [Esc] - Hides this window
-* [Cntr]+[W] - Closes the webbrowser, if open.
+* [Win]+[C] - Opens the command window
+* [Esc] - Hides the commmand window
+* [Cntr]+[W] - Closes the internal webbrowser, if open.
 
 ## Native commands
 Native commands are commands that are hardcoded into the app, by well me. Here is a list of them:
