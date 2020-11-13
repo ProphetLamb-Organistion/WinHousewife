@@ -301,15 +301,6 @@ namespace IntegratedCalc.CommandLineIO
                 "Minimizes the application to the background.",
                 "",
                 _ => { DoCollapse(); return true; }));
-            AddCommand(new HelpCommand(this, "cmd",
-                "Opens a new Windows Commmand Promt window, by default with user privileges. Then closes this windows.",
-                "",
-                _ =>
-                {
-                    Process.Start("cmd.exe");
-                    DoCollapse();
-                    return true;
-                }));
             AddCommand(new HelpCommand(this, "cpy",
                 "Copies the last result or result of the expression to the clipboard.",
                 "\"cpy e0\" copies the value of c0 to the clipboard.\n\"cpy\" copies the result of the last calulations to the clipboard.\n\"cpy 2+2\" copies the value \"4\" to the clipboard.",
