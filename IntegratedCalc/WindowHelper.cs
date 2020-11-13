@@ -140,6 +140,10 @@ namespace IntegratedCalc
         #region PInvoke
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern IntPtr SetFocus(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool SetForegroundWindow(IntPtr hWnd);
         #endregion
     }
 }
