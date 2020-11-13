@@ -54,7 +54,14 @@ namespace IntegratedCalc.CommandLineIO
 
         private void DoNavigateBrowser(string uri) => NavigateBrowser(this, uri);
 
-        private void DoReloadSettings() => ReloadSettings(this, null);
+        private void DoReloadSettings()
+        {
+            ReloadSettings(this, null);
+            _commands.Clear();
+            InitializeNativeCommands();
+            InitializeWebCommands();
+            InitializeLaunchCommands();
+        }
         #endregion
 
         private bool InterceptCommands()
@@ -478,9 +485,20 @@ namespace IntegratedCalc.CommandLineIO
             {
                 if (base.Execute(arg))
                     return true;
-                var args = arg.GetClArguments(ClArgOptions.RemoveWhitespaceEntries | ClArgOptions.RemoveEncompassingQuotes);
-                var arg1 = args.First().ToLowerInvariant();
-                var arg2 = arg.Remove(0, arg1.Length).Trim();
+                string arg1, arg2;
+                // Handle empty arg
+                if (String.IsNullOrEmpty(arg))
+                {
+                    arg1 = String.Empty;
+                    arg2 = String.Empty;
+                }
+                else
+                {
+                    var args = arg.GetClArguments(ClArgOptions.RemoveWhitespaceEntries | ClArgOptions.RemoveEncompassingQuotes);
+                    arg1 = args.FirstOrDefault().ToLowerInvariant() ?? String.Empty;
+                    arg2 = arg.Remove(0, arg1.Length).Trim();
+                }
+                
                 // Check if subcommand with cmdlet exists
                 if (!_subCommands.TryGetValue(arg1, out ICliCommand subCommand))
                 {
