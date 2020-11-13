@@ -38,6 +38,10 @@ namespace IntegratedCalc
         public MainWindow(SettingsProvider<SettingsObject> provider)
         {
             InitializeComponent();
+            Width = 0;
+            Height = 0;
+            Left = 0;
+            Top = 0;
             Loaded += MainWindow_Loaded;
             _provider = provider;
             _taskbarIcon = (TaskbarIcon)FindResource("TaskbarIcon");
@@ -97,6 +101,7 @@ namespace IntegratedCalc
 
         private void ApplySettings()
         {
+            _provider.Get();
             Topmost = _provider.Current.IsTopmost;
             WindowHelper.ResizeFitToScreen(this, Math.Max(MinWidth, _provider.Current.StartupSize.Width), Math.Max(MinHeight, _provider.Current.StartupSize.Height));
             WindowHelper.SnapToOrigins(this, _provider.Current.StartupLocation);
@@ -206,7 +211,7 @@ namespace IntegratedCalc
             // Pass through specific keydowns to the input textbox
             bool passThrough = true;
             // Ignore modifier only events
-            if ((String.IsNullOrEmpty(text) || text.Length > 1) && mods != 0)
+            if (String.IsNullOrEmpty(text) || text.Length > 1)
                 passThrough = false;
             // Keep Cntr & (A | C | V)
             else if (mods == ModifierKeys.Control && (e.Key == Key.A || e.Key == Key.C || e.Key == Key.V))
@@ -247,6 +252,15 @@ namespace IntegratedCalc
         private void Window_LocationChanged(object sender, EventArgs e)
         {
             _provider.Current.StartupLocation = WindowHelper.GetSnapOrigins(this);
+        }
+
+        private void MoveWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+                e.Handled = true;
+            }
         }
     }
 }
