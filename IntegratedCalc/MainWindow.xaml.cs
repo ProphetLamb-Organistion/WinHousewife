@@ -97,7 +97,6 @@ namespace IntegratedCalc
 
         private void ApplySettings()
         {
-            ExceptionExtentions.Try(_provider.Get);
             Topmost = _provider.Current.IsTopmost;
             WindowHelper.ResizeFitToScreen(this, Math.Max(MinWidth, _provider.Current.StartupSize.Width), Math.Max(MinHeight, _provider.Current.StartupSize.Height));
             WindowHelper.SnapToOrigins(this, _provider.Current.StartupLocation);
