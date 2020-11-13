@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 
@@ -21,14 +22,26 @@ namespace IntegratedCalc
         {
             if (mutex.WaitOne(TimeSpan.Zero, true))
             {
-                new InitWindow().Show();
-                mutex.ReleaseMutex();
+                goto LAUNCH;
             }
             else
             {
-                MessageBox.Show("This is a single-instance application. Only one instance at a time is allowed.\nPress [Win]+[C] to show the window.", "Error: Single-Instance application", MessageBoxButton.OK, MessageBoxImage.Error);
-                Application.Current.Shutdown();
+                if (MessageBoxResult.Yes == MessageBox.Show("This is a single-instance application. Only one instance at a time is allowed.\nPress [Win]+[C] to show the window.\n\nShould existing instances be terminated?", "Warning: Single-Instance application", MessageBoxButton.YesNo, MessageBoxImage.Warning))
+                {
+                    var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
+                    foreach (var process in System.Diagnostics.Process.GetProcessesByName("IntegratedCalc.exe").Where(p => p != currentProcess))
+                        process.Kill();
+                    goto LAUNCH;
+                }
+                else
+                {
+                    Application.Current.Shutdown();
+                    return;
+                }
             }
+        LAUNCH:
+            new InitWindow().Show();
+            mutex.ReleaseMutex();
         }
     }
 }
