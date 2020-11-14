@@ -137,6 +137,14 @@ namespace IntegratedCalc
             window.Height = clientAreaH;
         }
 
+        public static void HideMinimizeAndMaximizeButtons(this Window window)
+        {
+            IntPtr hwnd = new WindowInteropHelper(window).Handle;
+            var currentStyle = GetWindowLong(hwnd, GWL_STYLE);
+
+            SetWindowLong(hwnd, GWL_STYLE, (currentStyle & ~WS_MAXIMIZEBOX & ~WS_MINIMIZEBOX));
+        }
+
         #region PInvoke
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern IntPtr SetFocus(IntPtr hWnd);
@@ -144,6 +152,16 @@ namespace IntegratedCalc
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        private const int GWL_STYLE = -16,
+                          WS_MAXIMIZEBOX = 0x10000,
+                          WS_MINIMIZEBOX = 0x20000;
+
+        [DllImport("user32.dll")]
+        extern private static int GetWindowLong(IntPtr hwnd, int index);
+
+        [DllImport("user32.dll")]
+        extern private static int SetWindowLong(IntPtr hwnd, int index, int value);
         #endregion
     }
 }

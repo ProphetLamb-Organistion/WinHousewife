@@ -1,10 +1,10 @@
-﻿using IntegratedCalc.CommandLineIO;
+﻿using IntegratedCalc.Commandline;
 
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
-namespace IntegratedCalc
+namespace IntegratedCalc.Settings
 {
     public class SettingsObject
     {

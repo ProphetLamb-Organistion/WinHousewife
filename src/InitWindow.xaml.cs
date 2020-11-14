@@ -29,14 +29,18 @@ namespace IntegratedCalc
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ExceptionExtentions.Try(() =>
+            try
             {
                 if (!_provider.Get())
                 {
                     _provider.Current = SettingsObject.Default;
-                    _provider.SaveAsync().ConfigureAwait(false);
+                    _provider.Save();
                 }
-            });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             Dispatcher.BeginInvoke(new Action(() =>
             {
                 StickyWindow.RegisterExternalReferenceForm(this);

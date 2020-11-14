@@ -5,7 +5,8 @@ using CefSharp.DevTools;
 
 using Hardcodet.Wpf.TaskbarNotification;
 
-using IntegratedCalc.CommandLineIO;
+using IntegratedCalc.Commandline;
+using IntegratedCalc.Hotkey;
 using IntegratedCalc.Settings;
 
 using System;
@@ -51,8 +52,8 @@ namespace IntegratedCalc
             TextInput.PreviewKeyDown += WebBrowserOutput_Hide_PreviewKeyDown;
             _clio.Close += ForceClose;
             _clio.Collpse += Collapse;
-            _clio.Resize += (s, e) => SnapResize(e.Width, e.Height);
-            _clio.Topmost += (s, topmost) => Topmost = topmost;
+            _clio.SizeChanged += (s, e) => SnapResize(e.Width, e.Height);
+            _clio.TopmostChanged += (s, topmost) => Topmost = topmost;
             _clio.NavigateBrowser += NavigateBrowser;
             _clio.ReloadSettings += ReloadSettings;
         }

@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace IntegratedCalc.CommandLineIO
+namespace IntegratedCalc.Commandline
 {
 
-    public enum ClArgOptions
+    public enum CommandLineArgumentParserOptions
     {
         None = 0,
         RemoveEmptyEntries = 1,
@@ -14,14 +14,14 @@ namespace IntegratedCalc.CommandLineIO
         UnescapeCharacters = 8
     }
 
-    public class ClArgParser : IEnumerator<string>
+    public class CommandLineArgumentParser : IEnumerator<string>
     {
         readonly string _input;
-        ClArgOptions _options;
+        CommandLineArgumentParserOptions _options;
         string _token = String.Empty;
         int _currentTokenPos;
 
-        public ClArgParser(string input, ClArgOptions options = ClArgOptions.None)
+        public CommandLineArgumentParser(string input, CommandLineArgumentParserOptions options = CommandLineArgumentParserOptions.None)
         {
             _input = input;
             _options = options;
@@ -92,14 +92,14 @@ namespace IntegratedCalc.CommandLineIO
 
         private bool SetNext(ReadOnlySpan<char> nextCanidate, int consumedChars)
         {
-            if ((_options & ClArgOptions.RemoveEncompassingQuotes) != 0 && nextCanidate[0] == '\"' && nextCanidate[nextCanidate.Length - 1] == '\"')
+            if ((_options & CommandLineArgumentParserOptions.RemoveEncompassingQuotes) != 0 && nextCanidate[0] == '\"' && nextCanidate[nextCanidate.Length - 1] == '\"')
                 nextCanidate = nextCanidate.Slice(1, nextCanidate.Length - 3);
-            if ((_options & ClArgOptions.RemoveWhitespaceEntries) != 0 && nextCanidate.IsWhiteSpace())
+            if ((_options & CommandLineArgumentParserOptions.RemoveWhitespaceEntries) != 0 && nextCanidate.IsWhiteSpace())
                 return MoveNext();
-            if ((_options & ClArgOptions.RemoveEmptyEntries) != 0 && nextCanidate.IsEmpty)
+            if ((_options & CommandLineArgumentParserOptions.RemoveEmptyEntries) != 0 && nextCanidate.IsEmpty)
                 return MoveNext();
-            if ((_options & ClArgOptions.UnescapeCharacters) != 0)
-                nextCanidate = System.Text.RegularExpressions.Regex.Unescape(nextCanidate.ToString()).AsSpan(); // Sadly Regex.Unescape doesnt allow for Spans.
+            if ((_options & CommandLineArgumentParserOptions.UnescapeCharacters) != 0)
+                nextCanidate = System.Text.RegularExpressions.Regex.Unescape(nextCanidate.ToString()).AsSpan();
 
             _token = nextCanidate.ToString();
             _currentTokenPos += consumedChars;

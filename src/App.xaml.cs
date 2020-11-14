@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -28,8 +29,9 @@ namespace IntegratedCalc
             {
                 if (MessageBoxResult.Yes == MessageBox.Show("This is a single-instance application. Only one instance at a time is allowed.\nPress [Win]+[C] to show the window.\n\nShould existing instances be terminated?", "Warning: Single-Instance application", MessageBoxButton.YesNo, MessageBoxImage.Warning))
                 {
-                    var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
-                    foreach (var process in System.Diagnostics.Process.GetProcessesByName("IntegratedCalc.exe").Where(p => p != currentProcess))
+                    var processes = Process.GetProcesses().Where(x => x.ProcessName.StartsWith("IntegratedCalc", StringComparison.InvariantCultureIgnoreCase) || x.ProcessName.StartsWith("WinHousewife", StringComparison.InvariantCultureIgnoreCase));
+                    var currentProcess = Process.GetCurrentProcess();
+                    foreach (var process in processes.Where(p => p.Id != currentProcess.Id))
                         process.Kill();
                     goto LAUNCH;
                 }

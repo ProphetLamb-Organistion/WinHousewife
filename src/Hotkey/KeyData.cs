@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Windows.Input;
 
-namespace IntegratedCalc
+namespace IntegratedCalc.Hotkey
 {
     public class KeyData : IReadOnlyList<byte>, IReadOnlyCollection<Keys>, IReadOnlyCollection<Key>, IEquatable<KeyData>
     {

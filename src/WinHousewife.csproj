@@ -168,20 +168,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CommandLineIO\ClArgParser.cs" />
-    <Compile Include="CommandLineIO\Command.cs" />
-    <Compile Include="DictionaryAdapter.cs" />
-    <Compile Include="ExceptionExtentions.cs" />
+    <Compile Include="Commandline\ArgumentParser.cs" />
+    <Compile Include="Commandline\Command.cs" />
     <Compile Include="InitWindow.xaml.cs">
       <DependentUpon>InitWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ListExtentions.cs" />
-    <Compile Include="CommandLineIO\TextInOutHandler.cs" />
+    <Compile Include="Commandline\TextInOutHandler.cs" />
     <Compile Include="Settings\SettingsProvider.cs" />
-    <Compile Include="SettingsObject.cs" />
+    <Compile Include="Settings\SettingsObject.cs" />
     <Compile Include="Settings\SettingsManager.cs" />
     <Compile Include="StringExtentions.cs" />
-    <Compile Include="WindowExtensions.cs" />
     <Compile Include="WindowHelper.cs" />
     <Page Include="InitWindow.xaml">
       <SubType>Designer</SubType>
@@ -195,8 +192,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HotkeyHelper.cs" />
-    <Compile Include="KeyData.cs" />
+    <Compile Include="Hotkey\HotkeyHelper.cs" />
+    <Compile Include="Hotkey\KeyData.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
