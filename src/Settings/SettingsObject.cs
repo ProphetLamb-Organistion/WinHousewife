@@ -8,8 +8,8 @@ namespace IntegratedCalc.Settings
 {
     public class SettingsObject
     {
-        public Dictionary<string, Size> Sizes { get; set; } 
-        public List<WebCommandData> WebCommands { get; set; } 
+        public Dictionary<string, Size> Sizes { get; set; }
+        public List<WebCommandData> WebCommands { get; set; }
         public List<LaunchCommandData> LaunchCommands { get; set; }
         public Size StartupSize { get; set; }
         public Size WebbrowserSize { get; set; }
