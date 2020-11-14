@@ -10,8 +10,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{50C5B3AE-7A47-4878-8916-82651F15B5F3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>IntegratedCalc</RootNamespace>
-    <AssemblyName>IntegratedCalc</AssemblyName>
+    <RootNamespace>WinHousewife</RootNamespace>
+    <AssemblyName>WinHousewife</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -100,6 +100,9 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>IntegratedCalc.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Gma.UserActivityMonitor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -175,7 +178,7 @@
     <Compile Include="ListExtentions.cs" />
     <Compile Include="CommandLineIO\TextInOutHandler.cs" />
     <Compile Include="Settings\SettingsProvider.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="SettingsObject.cs" />
     <Compile Include="Settings\SettingsManager.cs" />
     <Compile Include="StringExtentions.cs" />
     <Compile Include="WindowExtensions.cs" />

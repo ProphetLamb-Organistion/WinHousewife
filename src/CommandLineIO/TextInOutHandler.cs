@@ -239,27 +239,92 @@ namespace IntegratedCalc.CommandLineIO
                     var web = _commands.Where(x => x.Value is WebCommand);
                     var launch = _commands.Where(x => x.Value is LaunchCommand);
                     var native = _commands.Where(x => !(web.Contains(x) || launch.Contains(x)));
-                    PrintLn("\nNative commands:\n");
+                    PrintLn("\nNative commands:");
                     foreach (var kvp in native)
                     {
                         PrintNotify(kvp.Key + ": ");
                         PrintLn(kvp.Value.Helptext + '\n');
                     }
-                    PrintLn("\nWeb commands:\n");
+                    PrintLn("\nWeb commands:");
                     foreach (var kvp in web)
                     {
                         PrintNotify(kvp.Key + ": ");
                         PrintLn(kvp.Value.Helptext + '\n');
                     }
-                    PrintLn("\nProgram launch commands:\n");
+                    PrintLn("\nLaunch commands:");
                     foreach (var kvp in launch)
                     {
                         PrintNotify(kvp.Key + ": ");
-                        PrintLn(kvp.Value.Helptext + '\n');
+                        PrintLn(kvp.Value.Helptext + "\nPath: " + (kvp.Value as LaunchCommand).Target + '\n');
                     }
                 }
                 return true;
             }));
+            AddCommand(new NestedHelpCommand(this, "settings",
+                "Allows limited modification of applications settings. It is adviced to edit settings.json directly instead.",
+                "")
+            {
+                new HelpCommand(this, "open",
+                "Opens the settings.json file with the associated default application.",
+                "",
+                _ => {
+                    try
+                    {
+                        Process.Start("settings.json");
+                        PrintActionLn("Open settings.json.");
+                        return true;
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        PrintErrorLn("Failed to open settings.json, it doesnt exist... yet.");
+                        return false;
+                    }
+                }),
+                new HelpCommand(this, "load",
+                "Loads settings from the settings.json file on the device.",
+                "",
+                _ => {
+                    _provider.GetAsync().ContinueWith((a) => DoReloadSettings()).ConfigureAwait(false);
+                    PrintActionLn("Load settings.json");
+                    return true;
+                }),
+                new HelpCommand(this, "save",
+                "Writes the current setting to the settings.json file on the device.",
+                "",
+                _ => {
+                    InitWindow.SaveSettingsAsync(_provider).ConfigureAwait(false);
+                    PrintActionLn("Save settings.json");
+                    return true;
+                }),
+                new HelpCommand(this, "topmost",
+                "Writes the current setting to the settings.json file on the device.",
+                "",
+                arg => {
+                    var words = arg.Split(' ');
+                    if (words.Length < 2)
+                    {
+                        PrintErrorLn("No value for topmost provided. Valid are \"on\", and \"off\".");
+                        return false;
+                    }
+                    if (words[1].Equals("on", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        DoTopmost(true);
+                        PrintActionLn("Topmost enabled.");
+                    }
+                    else if (words[1].Equals("off", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        DoTopmost(false);
+                        PrintActionLn("Topmost disabled.");
+                    }
+                    else
+                    {
+                        PrintErrorLn("Invalid value for topmost. Valid are \"on\", and \"off\".");
+                        return false;
+                    }
+                    return true;
+                }),
+
+            });
             AddCommand(new HelpCommand(this, "size",
                 "Sets the size of the window to a predefined or specified value.",
                 "By default predefined sizes are \"size small\", \"size mid\", and \"size big\". These can be changed and added to in the settings.json.\nAlternatively a width and height value can be provided: \"size 500, 700\".",
@@ -325,70 +390,28 @@ namespace IntegratedCalc.CommandLineIO
                         return !Double.IsNaN(res);
                     }
                 }));
-            AddCommand(new NestedHelpCommand(this, "settings",
-                "Allows limited modification of applications settings. It is adviced to edit settings.json directly instead.",
-                "")
+            AddCommand(new NestedHelpCommand(this, "timer",
+                "[Work In Progress] Counts down from a timespan to zero.",
+                "", null)
             {
-                new HelpCommand(this, "open",
-                "Opens the settings.json file with the associated default application.",
+                new HelpCommand(this, "start",
+                "Starts the timer to a specified time.",
                 "",
-                _ => {
-                    try
-                    {
-                        Process.Start("settings.json");
-                        PrintActionLn("Open settings.json.");
-                        return true;
-                    }
-                    catch (FileNotFoundException)
-                    {
-                        PrintErrorLn("Failed to open settings.json, it doesnt exist... yet.");
+                arg =>
+                {
+                    if (String.IsNullOrWhiteSpace(arg) || !TimeSpan.TryParse(arg, out var ts))
                         return false;
-                    }
-                }),
-                new HelpCommand(this, "load",
-                "Loads settings from the settings.json file on the device.",
-                "",
-                _ => {
-                    _provider.GetAsync().ContinueWith((a) => DoReloadSettings()).ConfigureAwait(false);
-                    PrintActionLn("Load settings.json");
+                    // TODO: Show notification with remaining time.
                     return true;
                 }),
-                new HelpCommand(this, "save",
-                "Writes the current setting to the settings.json file on the device.",
+                new HelpCommand(this, "stop",
+                "Stops the latest timer, or the timer specified, if it exisits.",
                 "",
-                _ => {
-                    InitWindow.SaveSettingsAsync(_provider).ConfigureAwait(false);
-                    PrintActionLn("Save settings.json");
+                arg =>
+                {
+                    // TODO: Stops the latest timer, or the timer specified, if it exisits
                     return true;
-                }),
-                new HelpCommand(this, "topmost",
-                "Writes the current setting to the settings.json file on the device.",
-                "",
-                arg => {
-                    var words = arg.Split(' ');
-                    if (words.Length < 2)
-                    {
-                        PrintErrorLn("No value for topmost provided. Valid are \"on\", and \"off\".");
-                        return false;
-                    }
-                    if (words[1].Equals("on", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        DoTopmost(true);
-                        PrintActionLn("Topmost enabled.");
-                    }
-                    else if (words[1].Equals("off", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        DoTopmost(false);
-                        PrintActionLn("Topmost disabled.");
-                    }
-                    else
-                    {
-                        PrintErrorLn("Invalid value for topmost. Valid are \"on\", and \"off\".");
-                        return false;
-                    }
-                    return true;
-                }),
-
+                })
             });
         }
 

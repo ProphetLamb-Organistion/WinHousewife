@@ -73,7 +73,11 @@ namespace IntegratedCalc
                 new LaunchCommandData(
                     "code",
                     "Launches Visual Studio Code.",
-                    @"C:\Program Files\Microsoft VS Code\Code.exe")
+                    @"C:\Program Files\Microsoft VS Code\Code.exe"),
+                new LaunchCommandData(
+                    "cmd",
+                    "Launches the Windows Commandpromt.",
+                    @"cmd.exe")
             },
             ErrorColor = Colors.Red,
             InputColor = Colors.LightBlue,

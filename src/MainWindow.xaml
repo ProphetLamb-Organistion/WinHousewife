@@ -21,7 +21,7 @@
         <ResourceDictionary>
             <Brush x:Key="BackgroundBrush">#000000</Brush>
             <Brush x:Key="ForegroundBrush">#FFFFFF</Brush>
-            <Brush x:Key="LightBackgroundBrush">#0F3230</Brush>
+            <Brush x:Key="LightBackgroundBrush">#0F383A</Brush>
             <Brush x:Key="DisabledForegroundBrush">#F5F5F5</Brush>
             <Brush x:Key="MouseOverBackgroundBrush">#171717</Brush>
             <ContextMenu x:Key="TrayMenu">
